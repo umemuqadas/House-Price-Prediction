@@ -1,0 +1,345 @@
+{
+  "dataset": {
+    "name": "Ames Housing (Kaggle House Prices / OpenML 42193)",
+    "rows": 1460,
+    "features": 87,
+    "target": "SalePrice",
+    "target_skew": 1.8828757597682129,
+    "missing_columns": 3
+  },
+  "protocol": {
+    "test_size": 0.2,
+    "random_state": 42,
+    "cv_folds": 5,
+    "cv_strategy": "shuffled KFold on the training split",
+    "target_transform": "log1p (inverted before scoring) for learned models",
+    "scoring": [
+      "RMSE (USD)",
+      "MAE (USD)",
+      "R-squared",
+      "RMSLE",
+      "p90 |error|"
+    ]
+  },
+  "models": {
+    "baseline_mean": {
+      "description": "Predicts the training-set mean price (minimises RMSE).",
+      "cv": {
+        "rmse": 79076.48289262361,
+        "rmse_std": 6382.509538429515,
+        "mae": 57420.13166306618,
+        "r2": -0.004400261083293699,
+        "fit_seconds": 8.1
+      },
+      "test": {
+        "rmse": 80068.32349437165,
+        "mae": 57818.60626407394,
+        "r2": -1.2094334210788205e-05,
+        "rmsle": 0.41846828778107403,
+        "p90_abs_error": 108732.11386986311
+      },
+      "best_params": {}
+    },
+    "baseline_median": {
+      "description": "Predicts the training-set median price (minimises MAE).",
+      "cv": {
+        "rmse": 81244.85287401435,
+        "rmse_std": 6411.801579970317,
+        "mae": 55650.83904845749,
+        "r2": -0.06131829914062918,
+        "fit_seconds": 6.01
+      },
+      "test": {
+        "rmse": 82000.57006603132,
+        "mae": 55818.599315068495,
+        "r2": -0.04886000523414147,
+        "rmsle": 0.4099329961772755,
+        "p90_abs_error": 117900.00000000003
+      },
+      "best_params": {}
+    },
+    "linear_regression": {
+      "description": "Ordinary least squares on log-price, one-hot features.",
+      "cv": {
+        "rmse": 33860.4195731583,
+        "rmse_std": 9159.835224383429,
+        "mae": 17169.04366760764,
+        "r2": 0.7976341773963442,
+        "fit_seconds": 4.64
+      },
+      "test": {
+        "rmse": 26232.689335630243,
+        "mae": 16642.680083211333,
+        "r2": 0.8926580663591673,
+        "rmsle": 0.1219615461059544,
+        "p90_abs_error": 36136.75577990863
+      },
+      "best_params": {}
+    },
+    "ridge": {
+      "description": "L2-regularised linear model; alpha tuned by CV.",
+      "cv": {
+        "rmse": 33868.386988388855,
+        "rmse_std": 9280.23780861314,
+        "mae": 17108.697001517077,
+        "r2": 0.797001684832823,
+        "fit_seconds": 1.52
+      },
+      "test": {
+        "rmse": 26143.67885157729,
+        "mae": 16603.669450616308,
+        "r2": 0.8933852771687832,
+        "rmsle": 0.12162401686241073,
+        "p90_abs_error": 35667.33743972871
+      },
+      "best_params": {
+        "alpha": 0.1
+      }
+    },
+    "decision_tree": {
+      "description": "Single CART tree; depth/leaf size tuned by CV.",
+      "cv": {
+        "rmse": 38565.501299050695,
+        "rmse_std": 2511.0104650266103,
+        "mae": 24612.610403207356,
+        "r2": 0.7563650598032057,
+        "fit_seconds": 4.38
+      },
+      "test": {
+        "rmse": 34803.24247502625,
+        "mae": 23381.7717639005,
+        "r2": 0.8110603107701289,
+        "rmsle": 0.1825457543990856,
+        "p90_abs_error": 49428.75209237026
+      },
+      "best_params": {
+        "max_depth": 12,
+        "min_samples_leaf": 10
+      }
+    },
+    "random_forest": {
+      "description": "Bagged trees; feature sampling and leaf size tuned by CV.",
+      "cv": {
+        "rmse": 30606.9887227157,
+        "rmse_std": 3124.977954429178,
+        "mae": 17439.09739497222,
+        "r2": 0.8497728554917409,
+        "fit_seconds": 22.5
+      },
+      "test": {
+        "rmse": 24413.302210601545,
+        "mae": 15072.67642531508,
+        "r2": 0.907031283193912,
+        "rmsle": 0.12534544240528514,
+        "p90_abs_error": 35263.78710356369
+      },
+      "best_params": {
+        "max_features": 0.5,
+        "min_samples_leaf": 1
+      }
+    },
+    "hist_gradient_boosting": {
+      "description": "Histogram gradient boosting (bin-based splits, Newton steps); learning rate, leaf count and L2 tuned by CV.",
+      "cv": {
+        "rmse": 27804.56105975737,
+        "rmse_std": 2528.5300756255474,
+        "mae": 16635.80666885939,
+        "r2": 0.8756216241883414,
+        "fit_seconds": 89.92
+      },
+      "test": {
+        "rmse": 23960.48147077646,
+        "mae": 16067.88225112599,
+        "r2": 0.910448087850404,
+        "rmsle": 0.12686697024251328,
+        "p90_abs_error": 35639.215114833154
+      },
+      "best_params": {
+        "l2_regularization": 0.0,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 15
+      }
+    }
+  },
+  "baseline_comparison": {
+    "best_model": "hist_gradient_boosting",
+    "rmse_improvement_pct": 70.07495545668475,
+    "mae_improvement_pct": 72.2098416247887,
+    "baseline_test_rmse": 80068.32349437165,
+    "baseline_test_mae": 57818.60626407394,
+    "baseline_test_r2": -1.2094334210788205e-05,
+    "best_test_rmse": 23960.48147077646,
+    "best_test_mae": 16067.88225112599,
+    "best_test_r2": 0.910448087850404
+  },
+  "ablation_no_sale_context": {
+    "dropped_features": [
+      "MoSold",
+      "YrSold",
+      "SaleType",
+      "SaleCondition"
+    ],
+    "full_model_test_rmse": 23960.48147077646,
+    "test": {
+      "rmse": 24234.743729998012,
+      "mae": 15716.386173313838,
+      "r2": 0.9083862531462454,
+      "rmsle": 0.12648408024483757,
+      "p90_abs_error": 35703.87668659122
+    },
+    "rmse_change_pct": 1.144644190710682
+  },
+  "temporal_split": {
+    "train_period": "sales <= 2007",
+    "test_period": "sales 2008-2010",
+    "n_train": 643,
+    "n_test": 817,
+    "train_price_mean": 184347.2892690513,
+    "test_price_mean": 178224.77233782128,
+    "random_split_test_rmse": 23960.48147077646,
+    "rmse_vs_random_split_pct": {
+      "baseline_mean": 221.0852828890515,
+      "best_full_features": 9.653696629918333,
+      "best_without_sale_context": 10.092441087918093
+    },
+    "models": {
+      "baseline_mean": {
+        "rmse": 76933.57971202137,
+        "mae": 57475.99746445573,
+        "r2": -0.00637363751044373,
+        "rmsle": 0.41856991208813255,
+        "p90_abs_error": 110849.91073094867
+      },
+      "best_full_features": {
+        "rmse": 26273.553663033013,
+        "mae": 17156.24260077097,
+        "r2": 0.8826278645533121,
+        "rmsle": 0.14315541906731774,
+        "p90_abs_error": 38004.49950534158
+      },
+      "best_without_sale_context": {
+        "rmse": 26378.678947596105,
+        "mae": 17081.002208211783,
+        "r2": 0.8816867308071052,
+        "rmsle": 0.14377009007526545,
+        "p90_abs_error": 37050.22792766215
+      }
+    }
+  },
+  "artifact": {
+    "path": "best_model.joblib",
+    "pipeline_stages": [
+      "impute (median / most-frequent)",
+      "one-hot (handle_unknown='ignore', min_frequency=5, drop='first')",
+      "VarianceThreshold(0.01)",
+      "model"
+    ],
+    "feature_columns": [
+      "MSSubClass",
+      "MSZoning",
+      "LotFrontage",
+      "LotArea",
+      "Street",
+      "Alley",
+      "LotShape",
+      "LandContour",
+      "Utilities",
+      "LotConfig",
+      "LandSlope",
+      "Neighborhood",
+      "Condition1",
+      "Condition2",
+      "BldgType",
+      "HouseStyle",
+      "OverallQual",
+      "OverallCond",
+      "YearBuilt",
+      "YearRemodAdd",
+      "RoofStyle",
+      "RoofMatl",
+      "Exterior1st",
+      "Exterior2nd",
+      "MasVnrType",
+      "MasVnrArea",
+      "ExterQual",
+      "ExterCond",
+      "Foundation",
+      "BsmtQual",
+      "BsmtCond",
+      "BsmtExposure",
+      "BsmtFinType1",
+      "BsmtFinSF1",
+      "BsmtFinType2",
+      "BsmtFinSF2",
+      "BsmtUnfSF",
+      "TotalBsmtSF",
+      "Heating",
+      "HeatingQC",
+      "CentralAir",
+      "Electrical",
+      "1stFlrSF",
+      "2ndFlrSF",
+      "LowQualFinSF",
+      "GrLivArea",
+      "BsmtFullBath",
+      "BsmtHalfBath",
+      "FullBath",
+      "HalfBath",
+      "BedroomAbvGr",
+      "KitchenAbvGr",
+      "KitchenQual",
+      "TotRmsAbvGrd",
+      "Functional",
+      "Fireplaces",
+      "FireplaceQu",
+      "GarageType",
+      "GarageYrBlt",
+      "GarageFinish",
+      "GarageCars",
+      "GarageArea",
+      "GarageQual",
+      "GarageCond",
+      "PavedDrive",
+      "WoodDeckSF",
+      "OpenPorchSF",
+      "EnclosedPorch",
+      "3SsnPorch",
+      "ScreenPorch",
+      "PoolArea",
+      "PoolQC",
+      "Fence",
+      "MiscFeature",
+      "MiscVal",
+      "MoSold",
+      "YrSold",
+      "SaleType",
+      "SaleCondition",
+      "LotFrontage_is_missing",
+      "TotalSF",
+      "TotalBath",
+      "HouseAge",
+      "YearsSinceRemod",
+      "TotalPorchSF",
+      "LogLotArea",
+      "LogGrLivArea"
+    ],
+    "consumed_by": "python -m src.predict"
+  },
+  "top_features_permutation": {
+    "TotalSF": 31082.108461252374,
+    "OverallQual": 22732.550658315835,
+    "GarageCars": 4745.279899911738,
+    "LotArea": 1841.7086158439895,
+    "GarageYrBlt": 1634.525167611333,
+    "TotalBath": 1605.6410372252951,
+    "GrLivArea": 1414.260243969967,
+    "Neighborhood": 1388.2977334110747,
+    "OverallCond": 1186.2614701184393,
+    "YearsSinceRemod": 891.4503834686973,
+    "BsmtFinSF1": 752.3886176099913,
+    "HouseAge": 697.3114694364729,
+    "YearRemodAdd": 686.5824347243067,
+    "1stFlrSF": 646.3463548433225,
+    "KitchenQual": 586.5558847144624
+  }
+}
